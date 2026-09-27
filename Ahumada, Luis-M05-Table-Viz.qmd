@@ -1,0 +1,28 @@
+---
+title: "M05-Visualizing Data with Tables for MSDM CEP"
+author: "Luis Ahumada"
+date: '`r format(Sys.time())`'
+format: 
+  html: 
+    toc: true
+    number-sections: true
+    code-link: true
+    embed-resources: true
+editor: visual
+execute: 
+  freeze: auto
+---
+
+# What I Learned from the Videos
+
+## 1. Summary 
+
+After watching the videos, I learned that tables can be much more than just a basic way to showcase numbers and data. The `gt` package can help me make tables look much more organized and professional by adding titles, labels, colors, footnotes, and number formatting. I also learned that the data should be summarized and cleaned before create the final table. With `gtExtra` I learned that we can add small visuals directly inside a table which is nice because I thought that tables and charts had to be created separate when I would created them. By combing them, the data that I want to be present can become a lot easier to understand, rather than having things be all over the place.
+
+::: callout-note
+The key idea that I took away from the videos was that `gt` and `gExtra` packages can convert a basic table into something that is visually much easier to understand, and to organize as well.
+:::
+
+## 2. What I like about gt and gtExtra
+
+What I liked most about the `gt` package was the amount of control it gives me to in terms of how the my table looks without making things too complicated. With this package, I can change column names, add subtitles, format numers, change colors, and include notes that can help me explain data better to my audience. These small perks can make a difference when building a table with data because I can make it much more professional and not so generic and confusing. What I liked about `gtExtra` was the fact that I can add more visual elements to my table like small charts and trends. This is useful because it give me the exact values and a quick idea of what is happening in the data, making it easier for me to explain it too. So, instead of choosing between table or chart, I can combine them using these packages.
