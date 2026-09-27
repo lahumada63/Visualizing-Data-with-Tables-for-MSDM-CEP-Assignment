@@ -207,8 +207,6 @@ pizza_table_data |>
   )
 ```
 
-## 
-
 ## Adding a Small Trend Chart:
 
 ```{r}
@@ -256,8 +254,6 @@ pizza_table_data |>
     label = FALSE
   )
 ```
-
-## 
 
 ## Final Details:
 
@@ -337,3 +333,11 @@ pizza_table_data |>
 ## Why This Table Is Worth Adding to MSDM Project:
 
 This table is worth it because it would be super useful for what I am doing in my CEP. I will be able to keep many important measures in one place, making easy to compare performance, while the small trends chart can help me showcase how trends have changed over time. With the Facebook data that I will receive, I can compare content types, engagement, and reservation activity in a similar was and be useful for our written report and presentation slides.
+
+# Appendix
+
+## Project Links:
+
+[Github Repository](https://github.com/lahumada63/Visualizing-Data-with-Tables-for-MSDM-CEP-Assignment.git)
+
+Github Pages
