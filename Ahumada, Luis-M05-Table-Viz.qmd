@@ -340,4 +340,4 @@ This table is worth it because it would be super useful for what I am doing in m
 
 [Github Repository](https://github.com/lahumada63/Visualizing-Data-with-Tables-for-MSDM-CEP-Assignment.git)
 
-[Github Published Page](https://lahumada63.github.io/Visualizing-Data-with-Tables-for-MSDM-CEP-Assignment/)
+Github Published Page: <https://lahumada63.github.io/Visualizing-Data-with-Tables-for-MSDM-CEP-Assignment/>
