@@ -2223,6 +2223,13 @@ vertical-align: -.125em;
   <li><a href="#monthly-revenue-trend" id="toc-monthly-revenue-trend" class="nav-link" data-scroll-target="#monthly-revenue-trend"><span class="header-section-number">2.3</span> Monthly Revenue Trend:</a></li>
   <li><a href="#preparing-the-monthly-trend" id="toc-preparing-the-monthly-trend" class="nav-link" data-scroll-target="#preparing-the-monthly-trend"><span class="header-section-number">2.4</span> Preparing the Monthly Trend:</a></li>
   <li><a href="#combining-the-summary-data" id="toc-combining-the-summary-data" class="nav-link" data-scroll-target="#combining-the-summary-data"><span class="header-section-number">2.5</span> Combining the Summary Data:</a></li>
+  <li><a href="#creating-the-final-table" id="toc-creating-the-final-table" class="nav-link" data-scroll-target="#creating-the-final-table"><span class="header-section-number">2.6</span> Creating the Final Table:</a></li>
+  <li><a href="#formatting-the-table" id="toc-formatting-the-table" class="nav-link" data-scroll-target="#formatting-the-table"><span class="header-section-number">2.7</span> Formatting the Table:</a></li>
+  <li><a href="#section" id="toc-section" class="nav-link" data-scroll-target="#section"><span class="header-section-number">2.8</span> </a></li>
+  <li><a href="#adding-a-small-trend-chart" id="toc-adding-a-small-trend-chart" class="nav-link" data-scroll-target="#adding-a-small-trend-chart"><span class="header-section-number">2.9</span> Adding a Small Trend Chart:</a></li>
+  <li><a href="#section-1" id="toc-section-1" class="nav-link" data-scroll-target="#section-1"><span class="header-section-number">2.10</span> </a></li>
+  <li><a href="#final-details" id="toc-final-details" class="nav-link" data-scroll-target="#final-details"><span class="header-section-number">2.11</span> Final Details:</a></li>
+  <li><a href="#why-this-table-is-worth-adding-to-msdm-project" id="toc-why-this-table-is-worth-adding-to-msdm-project" class="nav-link" data-scroll-target="#why-this-table-is-worth-adding-to-msdm-project"><span class="header-section-number">2.12</span> Why This Table Is Worth Adding to MSDM Project:</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -2395,6 +2402,2102 @@ Note
 <section id="combining-the-summary-data" class="level2" data-number="2.5">
 <h2 data-number="2.5" class="anchored" data-anchor-id="combining-the-summary-data"><span class="header-section-number">2.5</span> Combining the Summary Data:</h2>
 <p>I will then combine the descriptive stats with the monthly trend data so that the final table can show both values and small visual trend for each type of pizza.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: combined-data</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>pizza_table_data <span class="ot">&lt;-</span> pizza_summary <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(trend_data, <span class="at">by =</span> <span class="st">&quot;type&quot;</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>pizza_table_data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 6
+  type    pizzas_sold avg_price total_revenue revenue_share monthly_trend
+  &lt;chr&gt;         &lt;int&gt;     &lt;dbl&gt;         &lt;dbl&gt;         &lt;dbl&gt; &lt;list&gt;       
+1 chicken       11050      17.7       195920.         0.240 &lt;dbl [12]&gt;   
+2 classic       14888      14.8       220053.         0.269 &lt;dbl [12]&gt;   
+3 supreme       11987      17.4       208197          0.255 &lt;dbl [12]&gt;   
+4 veggie        11649      16.6       193690.         0.237 &lt;dbl [12]&gt;   </code></pre>
+</div>
+</div>
+</section>
+<section id="creating-the-final-table" class="level2" data-number="2.6">
+<h2 data-number="2.6" class="anchored" data-anchor-id="creating-the-final-table"><span class="header-section-number">2.6</span> Creating the Final Table:</h2>
+<p>I will then use <code>gt</code> to convert the summarized data into a cleaner more professional table. I also included values and labels to make the table easier to read. You can see the result of the table below the chunk.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>pizza_table_data <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">rowname_col =</span> <span class="st">&quot;type&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_stubhead</span>(</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;Pizza Type&quot;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Pizza Sales Performance&quot;</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Sales, pricing, revenue, and monthly trends by pizza type&quot;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">pizzas_sold =</span> <span class="st">&quot;Pizzas Sold&quot;</span>,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_price =</span> <span class="st">&quot;Average Price&quot;</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_revenue =</span> <span class="st">&quot;Total Revenue&quot;</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">revenue_share =</span> <span class="st">&quot;Revenue Share&quot;</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">monthly_trend =</span> <span class="st">&quot;Monthly Trend&quot;</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="ohsuerfdsi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ohsuerfdsi table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#ohsuerfdsi thead, #ohsuerfdsi tbody, #ohsuerfdsi tfoot, #ohsuerfdsi tr, #ohsuerfdsi td, #ohsuerfdsi th {
+border-style: none;
+}
+#ohsuerfdsi p {
+margin: 0;
+padding: 0;
+}
+#ohsuerfdsi .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#ohsuerfdsi .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#ohsuerfdsi .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#ohsuerfdsi .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#ohsuerfdsi .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#ohsuerfdsi .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#ohsuerfdsi .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#ohsuerfdsi .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#ohsuerfdsi .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#ohsuerfdsi .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#ohsuerfdsi .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#ohsuerfdsi .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#ohsuerfdsi .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#ohsuerfdsi .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#ohsuerfdsi .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#ohsuerfdsi .gt_from_md > :first-child {
+margin-top: 0;
+}
+#ohsuerfdsi .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#ohsuerfdsi .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#ohsuerfdsi .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#ohsuerfdsi .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#ohsuerfdsi .gt_row_group_first td {
+border-top-width: 2px;
+}
+#ohsuerfdsi .gt_row_group_first th {
+border-top-width: 2px;
+}
+#ohsuerfdsi .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#ohsuerfdsi .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#ohsuerfdsi .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#ohsuerfdsi .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#ohsuerfdsi .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#ohsuerfdsi .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#ohsuerfdsi .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#ohsuerfdsi .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#ohsuerfdsi .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#ohsuerfdsi .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#ohsuerfdsi .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#ohsuerfdsi .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#ohsuerfdsi .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#ohsuerfdsi .gt_left {
+text-align: left;
+}
+#ohsuerfdsi .gt_center {
+text-align: center;
+}
+#ohsuerfdsi .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#ohsuerfdsi .gt_font_normal {
+font-weight: normal;
+}
+#ohsuerfdsi .gt_font_bold {
+font-weight: bold;
+}
+#ohsuerfdsi .gt_font_italic {
+font-style: italic;
+}
+#ohsuerfdsi .gt_super {
+font-size: 65%;
+}
+#ohsuerfdsi .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#ohsuerfdsi .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#ohsuerfdsi .gt_indent_1 {
+text-indent: 5px;
+}
+#ohsuerfdsi .gt_indent_2 {
+text-indent: 10px;
+}
+#ohsuerfdsi .gt_indent_3 {
+text-indent: 15px;
+}
+#ohsuerfdsi .gt_indent_4 {
+text-indent: 20px;
+}
+#ohsuerfdsi .gt_indent_5 {
+text-indent: 25px;
+}
+#ohsuerfdsi .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#ohsuerfdsi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading header">
+<td colspan="6" class="gt_heading gt_title gt_font_normal">Pizza Sales Performance</td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Sales, pricing, revenue, and monthly trends by pizza type</td>
+</tr>
+<tr class="gt_col_headings header">
+<th id="a::stub" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Pizza Type</th>
+<th id="pizzas_sold" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Pizzas Sold</th>
+<th id="avg_price" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Average Price</th>
+<th id="total_revenue" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Total Revenue</th>
+<th id="revenue_share" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Revenue Share</th>
+<th id="monthly_trend" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">Monthly Trend</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<th id="stub_1_1" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">chicken</th>
+<td class="gt_row gt_right" headers="stub_1_1 pizzas_sold">11050</td>
+<td class="gt_row gt_right" headers="stub_1_1 avg_price">17.73027</td>
+<td class="gt_row gt_right" headers="stub_1_1 total_revenue">195919.5</td>
+<td class="gt_row gt_right" headers="stub_1_1 revenue_share">0.2395514</td>
+<td class="gt_row gt_center" headers="stub_1_1 monthly_trend">16188.75, 15468.25, 17625.50, 16473.00, 16752.25, 16086.50, 17002.25, 16352.50, 16039.00, 14792.00, 17399.75, 15739.75</td>
+</tr>
+<tr class="even">
+<th id="stub_1_2" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">classic</th>
+<td class="gt_row gt_right" headers="stub_1_2 pizzas_sold">14888</td>
+<td class="gt_row gt_right" headers="stub_1_2 avg_price">14.78057</td>
+<td class="gt_row gt_right" headers="stub_1_2 total_revenue">220053.1</td>
+<td class="gt_row gt_right" headers="stub_1_2 revenue_share">0.2690596</td>
+<td class="gt_row gt_center" headers="stub_1_2 monthly_trend">18619.40, 17336.10, 18116.60, 18816.80, 19423.10, 18035.90, 19653.00, 18821.90, 17832.85, 17409.15, 18585.60, 17402.70</td>
+</tr>
+<tr class="odd">
+<th id="stub_1_3" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">supreme</th>
+<td class="gt_row gt_right" headers="stub_1_3 pizzas_sold">11987</td>
+<td class="gt_row gt_right" headers="stub_1_3 avg_price">17.36857</td>
+<td class="gt_row gt_right" headers="stub_1_3 total_revenue">208197.0</td>
+<td class="gt_row gt_right" headers="stub_1_3 revenue_share">0.2545631</td>
+<td class="gt_row gt_center" headers="stub_1_3 monthly_trend">17929.75, 16718.85, 17319.65, 17643.55, 18315.65, 18097.25, 18216.85, 17093.45, 15295.60, 17275.10, 18202.80, 16088.50</td>
+</tr>
+<tr class="even">
+<th id="stub_1_4" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">veggie</th>
+<td class="gt_row gt_right" headers="stub_1_4 pizzas_sold">11649</td>
+<td class="gt_row gt_right" headers="stub_1_4 avg_price">16.62722</td>
+<td class="gt_row gt_right" headers="stub_1_4 total_revenue">193690.5</td>
+<td class="gt_row gt_right" headers="stub_1_4 revenue_share">0.2368259</td>
+<td class="gt_row gt_center" headers="stub_1_4 monthly_trend">17055.40, 15636.40, 17335.35, 15803.45, 16911.75, 16010.55, 17685.80, 16010.40, 15012.60, 14551.35, 16207.20, 15470.20</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="formatting-the-table" class="level2" data-number="2.7">
+<h2 data-number="2.7" class="anchored" data-anchor-id="formatting-the-table"><span class="header-section-number">2.7</span> Formatting the Table:</h2>
+<p>I then will format the table to make it easier to read and more suitable for a presentation. I added labels, grouped related columns, and formatted numeric values.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>pizza_table_data <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">rowname_col =</span> <span class="st">&quot;type&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_stubhead</span>(</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;Pizza Type&quot;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Pizza Sales Performance&quot;</span>,</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Sales, pricing, revenue, and monthly trends by pizza type&quot;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">pizzas_sold =</span> <span class="st">&quot;Pizzas Sold&quot;</span>,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_price =</span> <span class="st">&quot;Average Price&quot;</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_revenue =</span> <span class="st">&quot;Total Revenue&quot;</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">revenue_share =</span> <span class="st">&quot;Revenue Share&quot;</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">monthly_trend =</span> <span class="st">&quot;Monthly Trend&quot;</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;Sales Performance&quot;</span>,</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>      pizzas_sold,</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>      avg_price,</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>      total_revenue,</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>      revenue_share</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> pizzas_sold,</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">decimals =</span> <span class="dv">0</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_currency</span>(</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(avg_price, total_revenue),</span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">currency =</span> <span class="st">&quot;USD&quot;</span>,</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">decimals =</span> <span class="dv">2</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> revenue_share,</span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">decimals =</span> <span class="dv">2</span></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="nmzlufdlmq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nmzlufdlmq table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#nmzlufdlmq thead, #nmzlufdlmq tbody, #nmzlufdlmq tfoot, #nmzlufdlmq tr, #nmzlufdlmq td, #nmzlufdlmq th {
+border-style: none;
+}
+#nmzlufdlmq p {
+margin: 0;
+padding: 0;
+}
+#nmzlufdlmq .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#nmzlufdlmq .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#nmzlufdlmq .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#nmzlufdlmq .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#nmzlufdlmq .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#nmzlufdlmq .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#nmzlufdlmq .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#nmzlufdlmq .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#nmzlufdlmq .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#nmzlufdlmq .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#nmzlufdlmq .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#nmzlufdlmq .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#nmzlufdlmq .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#nmzlufdlmq .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#nmzlufdlmq .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#nmzlufdlmq .gt_from_md > :first-child {
+margin-top: 0;
+}
+#nmzlufdlmq .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#nmzlufdlmq .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#nmzlufdlmq .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#nmzlufdlmq .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#nmzlufdlmq .gt_row_group_first td {
+border-top-width: 2px;
+}
+#nmzlufdlmq .gt_row_group_first th {
+border-top-width: 2px;
+}
+#nmzlufdlmq .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#nmzlufdlmq .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#nmzlufdlmq .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#nmzlufdlmq .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#nmzlufdlmq .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#nmzlufdlmq .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#nmzlufdlmq .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#nmzlufdlmq .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#nmzlufdlmq .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#nmzlufdlmq .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#nmzlufdlmq .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#nmzlufdlmq .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#nmzlufdlmq .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#nmzlufdlmq .gt_left {
+text-align: left;
+}
+#nmzlufdlmq .gt_center {
+text-align: center;
+}
+#nmzlufdlmq .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#nmzlufdlmq .gt_font_normal {
+font-weight: normal;
+}
+#nmzlufdlmq .gt_font_bold {
+font-weight: bold;
+}
+#nmzlufdlmq .gt_font_italic {
+font-style: italic;
+}
+#nmzlufdlmq .gt_super {
+font-size: 65%;
+}
+#nmzlufdlmq .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#nmzlufdlmq .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#nmzlufdlmq .gt_indent_1 {
+text-indent: 5px;
+}
+#nmzlufdlmq .gt_indent_2 {
+text-indent: 10px;
+}
+#nmzlufdlmq .gt_indent_3 {
+text-indent: 15px;
+}
+#nmzlufdlmq .gt_indent_4 {
+text-indent: 20px;
+}
+#nmzlufdlmq .gt_indent_5 {
+text-indent: 25px;
+}
+#nmzlufdlmq .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#nmzlufdlmq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="gt_heading header">
+<td colspan="6" class="gt_heading gt_title gt_font_normal">Pizza Sales Performance</td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Sales, pricing, revenue, and monthly trends by pizza type</td>
+</tr>
+<tr class="gt_col_headings gt_spanner_row header">
+<th rowspan="2" id="a::stub" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Pizza Type</th>
+<th colspan="4" id="Sales Performance" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><div class="gt_column_spanner">
+Sales Performance
+</div></th>
+<th rowspan="2" id="monthly_trend" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">Monthly Trend</th>
+</tr>
+<tr class="gt_col_headings even">
+<th id="pizzas_sold" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Pizzas Sold</th>
+<th id="avg_price" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Average Price</th>
+<th id="total_revenue" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Total Revenue</th>
+<th id="revenue_share" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Revenue Share</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<th id="stub_1_1" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">chicken</th>
+<td class="gt_row gt_right" headers="stub_1_1 pizzas_sold">11,050</td>
+<td class="gt_row gt_right" headers="stub_1_1 avg_price">$17.73</td>
+<td class="gt_row gt_right" headers="stub_1_1 total_revenue">$195,919.50</td>
+<td class="gt_row gt_right" headers="stub_1_1 revenue_share">23.96%</td>
+<td class="gt_row gt_center" headers="stub_1_1 monthly_trend">16188.75, 15468.25, 17625.50, 16473.00, 16752.25, 16086.50, 17002.25, 16352.50, 16039.00, 14792.00, 17399.75, 15739.75</td>
+</tr>
+<tr class="even">
+<th id="stub_1_2" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">classic</th>
+<td class="gt_row gt_right" headers="stub_1_2 pizzas_sold">14,888</td>
+<td class="gt_row gt_right" headers="stub_1_2 avg_price">$14.78</td>
+<td class="gt_row gt_right" headers="stub_1_2 total_revenue">$220,053.10</td>
+<td class="gt_row gt_right" headers="stub_1_2 revenue_share">26.91%</td>
+<td class="gt_row gt_center" headers="stub_1_2 monthly_trend">18619.40, 17336.10, 18116.60, 18816.80, 19423.10, 18035.90, 19653.00, 18821.90, 17832.85, 17409.15, 18585.60, 17402.70</td>
+</tr>
+<tr class="odd">
+<th id="stub_1_3" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">supreme</th>
+<td class="gt_row gt_right" headers="stub_1_3 pizzas_sold">11,987</td>
+<td class="gt_row gt_right" headers="stub_1_3 avg_price">$17.37</td>
+<td class="gt_row gt_right" headers="stub_1_3 total_revenue">$208,197.00</td>
+<td class="gt_row gt_right" headers="stub_1_3 revenue_share">25.46%</td>
+<td class="gt_row gt_center" headers="stub_1_3 monthly_trend">17929.75, 16718.85, 17319.65, 17643.55, 18315.65, 18097.25, 18216.85, 17093.45, 15295.60, 17275.10, 18202.80, 16088.50</td>
+</tr>
+<tr class="even">
+<th id="stub_1_4" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">veggie</th>
+<td class="gt_row gt_right" headers="stub_1_4 pizzas_sold">11,649</td>
+<td class="gt_row gt_right" headers="stub_1_4 avg_price">$16.63</td>
+<td class="gt_row gt_right" headers="stub_1_4 total_revenue">$193,690.45</td>
+<td class="gt_row gt_right" headers="stub_1_4 revenue_share">23.68%</td>
+<td class="gt_row gt_center" headers="stub_1_4 monthly_trend">17055.40, 15636.40, 17335.35, 15803.45, 16911.75, 16010.55, 17685.80, 16010.40, 15012.60, 14551.35, 16207.20, 15470.20</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="section" class="level2" data-number="2.8">
+<h2 data-number="2.8" class="anchored" data-anchor-id="section"><span class="header-section-number">2.8</span> </h2>
+</section>
+<section id="adding-a-small-trend-chart" class="level2" data-number="2.9">
+<h2 data-number="2.9" class="anchored" data-anchor-id="adding-a-small-trend-chart"><span class="header-section-number">2.9</span> Adding a Small Trend Chart:</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>pizza_table_data <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">rowname_col =</span> <span class="st">&quot;type&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_stubhead</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;Pizza Type&quot;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Pizza Sales Performance&quot;</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Sales, pricing, revenue, and monthly trends by pizza type&quot;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">pizzas_sold =</span> <span class="st">&quot;Pizzas Sold&quot;</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_price =</span> <span class="st">&quot;Average Price&quot;</span>,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_revenue =</span> <span class="st">&quot;Total Revenue&quot;</span>,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">revenue_share =</span> <span class="st">&quot;Revenue Share&quot;</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">monthly_trend =</span> <span class="st">&quot;Monthly Trend&quot;</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;Sales Performance&quot;</span>,</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>      pizzas_sold,</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>      avg_price,</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>      total_revenue,</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>      revenue_share</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> pizzas_sold,</span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">decimals =</span> <span class="dv">0</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_currency</span>(</span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(avg_price, total_revenue),</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">currency =</span> <span class="st">&quot;USD&quot;</span>,</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">decimals =</span> <span class="dv">2</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> revenue_share,</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">decimals =</span> <span class="dv">2</span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt_plt_sparkline</span>(</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">column =</span> monthly_trend,</span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">same_limit =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="cn">FALSE</span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="uzszgxrhpz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#uzszgxrhpz table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#uzszgxrhpz thead, #uzszgxrhpz tbody, #uzszgxrhpz tfoot, #uzszgxrhpz tr, #uzszgxrhpz td, #uzszgxrhpz th {
+border-style: none;
+}
+#uzszgxrhpz p {
+margin: 0;
+padding: 0;
+}
+#uzszgxrhpz .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#uzszgxrhpz .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#uzszgxrhpz .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#uzszgxrhpz .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#uzszgxrhpz .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#uzszgxrhpz .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#uzszgxrhpz .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#uzszgxrhpz .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#uzszgxrhpz .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#uzszgxrhpz .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#uzszgxrhpz .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#uzszgxrhpz .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#uzszgxrhpz .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#uzszgxrhpz .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#uzszgxrhpz .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#uzszgxrhpz .gt_from_md > :first-child {
+margin-top: 0;
+}
+#uzszgxrhpz .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#uzszgxrhpz .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#uzszgxrhpz .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#uzszgxrhpz .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#uzszgxrhpz .gt_row_group_first td {
+border-top-width: 2px;
+}
+#uzszgxrhpz .gt_row_group_first th {
+border-top-width: 2px;
+}
+#uzszgxrhpz .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#uzszgxrhpz .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#uzszgxrhpz .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#uzszgxrhpz .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#uzszgxrhpz .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#uzszgxrhpz .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#uzszgxrhpz .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#uzszgxrhpz .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#uzszgxrhpz .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#uzszgxrhpz .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#uzszgxrhpz .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#uzszgxrhpz .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#uzszgxrhpz .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#uzszgxrhpz .gt_left {
+text-align: left;
+}
+#uzszgxrhpz .gt_center {
+text-align: center;
+}
+#uzszgxrhpz .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#uzszgxrhpz .gt_font_normal {
+font-weight: normal;
+}
+#uzszgxrhpz .gt_font_bold {
+font-weight: bold;
+}
+#uzszgxrhpz .gt_font_italic {
+font-style: italic;
+}
+#uzszgxrhpz .gt_super {
+font-size: 65%;
+}
+#uzszgxrhpz .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#uzszgxrhpz .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#uzszgxrhpz .gt_indent_1 {
+text-indent: 5px;
+}
+#uzszgxrhpz .gt_indent_2 {
+text-indent: 10px;
+}
+#uzszgxrhpz .gt_indent_3 {
+text-indent: 15px;
+}
+#uzszgxrhpz .gt_indent_4 {
+text-indent: 20px;
+}
+#uzszgxrhpz .gt_indent_5 {
+text-indent: 25px;
+}
+#uzszgxrhpz .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#uzszgxrhpz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="gt_heading header">
+<td colspan="6" class="gt_heading gt_title gt_font_normal">Pizza Sales Performance</td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Sales, pricing, revenue, and monthly trends by pizza type</td>
+</tr>
+<tr class="gt_col_headings gt_spanner_row header">
+<th rowspan="2" id="a::stub" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Pizza Type</th>
+<th colspan="4" id="Sales Performance" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><div class="gt_column_spanner">
+Sales Performance
+</div></th>
+<th rowspan="2" id="monthly_trend" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">Monthly Trend</th>
+</tr>
+<tr class="gt_col_headings even">
+<th id="pizzas_sold" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Pizzas Sold</th>
+<th id="avg_price" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Average Price</th>
+<th id="total_revenue" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Total Revenue</th>
+<th id="revenue_share" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Revenue Share</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<th id="stub_1_1" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">chicken</th>
+<td class="gt_row gt_right" headers="stub_1_1 pizzas_sold">11,050</td>
+<td class="gt_row gt_right" headers="stub_1_1 avg_price">$17.73</td>
+<td class="gt_row gt_right" headers="stub_1_1 total_revenue">$195,919.50</td>
+<td class="gt_row gt_right" headers="stub_1_1 revenue_share">23.96%</td>
+<td class="gt_row gt_center" headers="stub_1_1 monthly_trend"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="14.17pt" viewbox="0 0 85.04 14.17">
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;" /><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDE0LjE3"> <rect x="0.00" y="0.00" width="85.04" height="14.17" /> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDE0LjE3)"><rect x="0.00" y="0.0000000000000018" width="85.04" height="14.17" style="stroke-width: 0.00; stroke: none;" /><polyline points="3.87,8.97 10.89,10.45 17.92,6.01 24.95,8.38 31.98,7.81 39.01,9.18 46.03,7.29 53.06,8.63 60.09,9.27 67.12,11.84 74.15,6.47 81.17,9.89 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="81.17" cy="9.89" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="67.12" cy="11.84" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="17.92" cy="6.01" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="even">
+<th id="stub_1_2" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">classic</th>
+<td class="gt_row gt_right" headers="stub_1_2 pizzas_sold">14,888</td>
+<td class="gt_row gt_right" headers="stub_1_2 avg_price">$14.78</td>
+<td class="gt_row gt_right" headers="stub_1_2 total_revenue">$220,053.10</td>
+<td class="gt_row gt_right" headers="stub_1_2 revenue_share">26.91%</td>
+<td class="gt_row gt_center" headers="stub_1_2 monthly_trend"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="14.17pt" viewbox="0 0 85.04 14.17">
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;" /><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDE0LjE3"> <rect x="0.00" y="0.00" width="85.04" height="14.17" /> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDE0LjE3)"><rect x="0.00" y="0.0000000000000018" width="85.04" height="14.17" style="stroke-width: 0.00; stroke: none;" /><polyline points="3.87,3.96 10.89,6.61 17.92,5.00 24.95,3.56 31.98,2.31 39.01,5.16 46.03,1.84 53.06,3.55 60.09,5.58 67.12,6.45 74.15,4.03 81.17,6.47 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="81.17" cy="6.47" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="10.89" cy="6.61" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="46.03" cy="1.84" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="odd">
+<th id="stub_1_3" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">supreme</th>
+<td class="gt_row gt_right" headers="stub_1_3 pizzas_sold">11,987</td>
+<td class="gt_row gt_right" headers="stub_1_3 avg_price">$17.37</td>
+<td class="gt_row gt_right" headers="stub_1_3 total_revenue">$208,197.00</td>
+<td class="gt_row gt_right" headers="stub_1_3 revenue_share">25.46%</td>
+<td class="gt_row gt_center" headers="stub_1_3 monthly_trend"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="14.17pt" viewbox="0 0 85.04 14.17">
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;" /><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDE0LjE3"> <rect x="0.00" y="0.00" width="85.04" height="14.17" /> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDE0LjE3)"><rect x="0.00" y="0.0000000000000018" width="85.04" height="14.17" style="stroke-width: 0.00; stroke: none;" /><polyline points="3.87,5.38 10.89,7.88 17.92,6.64 24.95,5.97 31.98,4.59 39.01,5.04 46.03,4.79 53.06,7.10 60.09,10.80 67.12,6.73 74.15,4.82 81.17,9.17 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="81.17" cy="9.17" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="60.09" cy="10.80" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="31.98" cy="4.59" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="even">
+<th id="stub_1_4" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">veggie</th>
+<td class="gt_row gt_right" headers="stub_1_4 pizzas_sold">11,649</td>
+<td class="gt_row gt_right" headers="stub_1_4 avg_price">$16.63</td>
+<td class="gt_row gt_right" headers="stub_1_4 total_revenue">$193,690.45</td>
+<td class="gt_row gt_right" headers="stub_1_4 revenue_share">23.68%</td>
+<td class="gt_row gt_center" headers="stub_1_4 monthly_trend"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="14.17pt" viewbox="0 0 85.04 14.17">
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;" /><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDE0LjE3"> <rect x="0.00" y="0.00" width="85.04" height="14.17" /> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDE0LjE3)"><rect x="0.00" y="0.0000000000000018" width="85.04" height="14.17" style="stroke-width: 0.00; stroke: none;" /><polyline points="3.87,7.18 10.89,10.10 17.92,6.61 24.95,9.76 31.98,7.48 39.01,9.33 46.03,5.89 53.06,9.33 60.09,11.39 67.12,12.34 74.15,8.93 81.17,10.45 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="81.17" cy="10.45" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="67.12" cy="12.34" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="46.03" cy="5.89" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="section-1" class="level2" data-number="2.10">
+<h2 data-number="2.10" class="anchored" data-anchor-id="section-1"><span class="header-section-number">2.10</span> </h2>
+</section>
+<section id="final-details" class="level2" data-number="2.11">
+<h2 data-number="2.11" class="anchored" data-anchor-id="final-details"><span class="header-section-number">2.11</span> Final Details:</h2>
+<p>I added color, a footnote, and a source note to make the table easier to read. The monthly sparklines are still in there so that the table shows the trends and values.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: final-pizza-table</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>pizza_table_data <span class="sc">|&gt;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>(<span class="at">rowname_col =</span> <span class="st">&quot;type&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_stubhead</span>(</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;Pizza Type&quot;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Pizza Sales Performance&quot;</span>,</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Sales, pricing, revenue, and monthly trends by pizza type&quot;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">pizzas_sold =</span> <span class="st">&quot;Pizzas Sold&quot;</span>,</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">avg_price =</span> <span class="st">&quot;Average Price&quot;</span>,</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">total_revenue =</span> <span class="st">&quot;Total Revenue&quot;</span>,</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">revenue_share =</span> <span class="st">&quot;Revenue Share&quot;</span>,</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">monthly_trend =</span> <span class="st">&quot;Monthly Trend&quot;</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_spanner</span>(</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">&quot;Sales Performance&quot;</span>,</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>      pizzas_sold,</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>      avg_price,</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>      total_revenue,</span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>      revenue_share</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_number</span>(</span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> pizzas_sold,</span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">decimals =</span> <span class="dv">0</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_currency</span>(</span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(avg_price, total_revenue),</span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">currency =</span> <span class="st">&quot;USD&quot;</span>,</span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">decimals =</span> <span class="dv">2</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_percent</span>(</span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> revenue_share,</span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">decimals =</span> <span class="dv">2</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data_color</span>(</span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> total_revenue,</span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">method =</span> <span class="st">&quot;numeric&quot;</span>,</span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="st">&quot;Blues&quot;</span></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt_plt_sparkline</span>(</span>
+<span id="cb12-48"><a href="#cb12-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">column =</span> monthly_trend,</span>
+<span id="cb12-49"><a href="#cb12-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">same_limit =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-50"><a href="#cb12-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb12-51"><a href="#cb12-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="fu">c</span>(</span>
+<span id="cb12-52"><a href="#cb12-52" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb12-53"><a href="#cb12-53" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;black&quot;</span>,</span>
+<span id="cb12-54"><a href="#cb12-54" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;purple&quot;</span>,</span>
+<span id="cb12-55"><a href="#cb12-55" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;green&quot;</span>,</span>
+<span id="cb12-56"><a href="#cb12-56" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;lightgrey&quot;</span></span>
+<span id="cb12-57"><a href="#cb12-57" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-58"><a href="#cb12-58" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-59"><a href="#cb12-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
+<span id="cb12-60"><a href="#cb12-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="st">&quot;Total revenue is the sum of the selling prices for all pizzas sold.&quot;</span>,</span>
+<span id="cb12-61"><a href="#cb12-61" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_column_labels</span>(</span>
+<span id="cb12-62"><a href="#cb12-62" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> total_revenue</span>
+<span id="cb12-63"><a href="#cb12-63" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb12-64"><a href="#cb12-64" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-65"><a href="#cb12-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(</span>
+<span id="cb12-66"><a href="#cb12-66" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_note =</span> <span class="st">&quot;Source: pizzaplace dataset from the gt package.&quot;</span></span>
+<span id="cb12-67"><a href="#cb12-67" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div id="cefdguclfq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cefdguclfq table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#cefdguclfq thead, #cefdguclfq tbody, #cefdguclfq tfoot, #cefdguclfq tr, #cefdguclfq td, #cefdguclfq th {
+border-style: none;
+}
+#cefdguclfq p {
+margin: 0;
+padding: 0;
+}
+#cefdguclfq .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#cefdguclfq .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#cefdguclfq .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#cefdguclfq .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#cefdguclfq .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#cefdguclfq .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#cefdguclfq .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#cefdguclfq .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#cefdguclfq .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#cefdguclfq .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#cefdguclfq .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#cefdguclfq .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#cefdguclfq .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#cefdguclfq .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#cefdguclfq .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#cefdguclfq .gt_from_md > :first-child {
+margin-top: 0;
+}
+#cefdguclfq .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#cefdguclfq .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#cefdguclfq .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#cefdguclfq .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#cefdguclfq .gt_row_group_first td {
+border-top-width: 2px;
+}
+#cefdguclfq .gt_row_group_first th {
+border-top-width: 2px;
+}
+#cefdguclfq .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#cefdguclfq .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#cefdguclfq .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#cefdguclfq .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#cefdguclfq .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#cefdguclfq .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#cefdguclfq .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#cefdguclfq .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#cefdguclfq .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#cefdguclfq .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#cefdguclfq .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#cefdguclfq .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#cefdguclfq .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#cefdguclfq .gt_left {
+text-align: left;
+}
+#cefdguclfq .gt_center {
+text-align: center;
+}
+#cefdguclfq .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#cefdguclfq .gt_font_normal {
+font-weight: normal;
+}
+#cefdguclfq .gt_font_bold {
+font-weight: bold;
+}
+#cefdguclfq .gt_font_italic {
+font-style: italic;
+}
+#cefdguclfq .gt_super {
+font-size: 65%;
+}
+#cefdguclfq .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#cefdguclfq .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#cefdguclfq .gt_indent_1 {
+text-indent: 5px;
+}
+#cefdguclfq .gt_indent_2 {
+text-indent: 10px;
+}
+#cefdguclfq .gt_indent_3 {
+text-indent: 15px;
+}
+#cefdguclfq .gt_indent_4 {
+text-indent: 20px;
+}
+#cefdguclfq .gt_indent_5 {
+text-indent: 25px;
+}
+#cefdguclfq .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#cefdguclfq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="gt_heading header">
+<td colspan="6" class="gt_heading gt_title gt_font_normal">Pizza Sales Performance</td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="6" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Sales, pricing, revenue, and monthly trends by pizza type</td>
+</tr>
+<tr class="gt_col_headings gt_spanner_row header">
+<th rowspan="2" id="a::stub" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" scope="col">Pizza Type</th>
+<th colspan="4" id="Sales Performance" class="gt_center gt_columns_top_border gt_column_spanner_outer" data-quarto-table-cell-role="th" scope="colgroup"><div class="gt_column_spanner">
+Sales Performance
+</div></th>
+<th rowspan="2" id="monthly_trend" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" scope="col">Monthly Trend</th>
+</tr>
+<tr class="gt_col_headings even">
+<th id="pizzas_sold" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Pizzas Sold</th>
+<th id="avg_price" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Average Price</th>
+<th id="total_revenue" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Total Revenue<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+<th id="revenue_share" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">Revenue Share</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<th id="stub_1_1" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">chicken</th>
+<td class="gt_row gt_right" headers="stub_1_1 pizzas_sold">11,050</td>
+<td class="gt_row gt_right" headers="stub_1_1 avg_price">$17.73</td>
+<td class="gt_row gt_right" headers="stub_1_1 total_revenue" style="background-color: #E6F0FA; color: #000000">$195,919.50</td>
+<td class="gt_row gt_right" headers="stub_1_1 revenue_share">23.96%</td>
+<td class="gt_row gt_center" headers="stub_1_1 monthly_trend"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="14.17pt" viewbox="0 0 85.04 14.17">
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;" /><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDE0LjE3"> <rect x="0.00" y="0.00" width="85.04" height="14.17" /> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDE0LjE3)"><rect x="0.00" y="0.0000000000000018" width="85.04" height="14.17" style="stroke-width: 0.00; stroke: none;" /><polyline points="3.87,8.97 10.89,10.45 17.92,6.01 24.95,8.38 31.98,7.81 39.01,9.18 46.03,7.29 53.06,8.63 60.09,9.27 67.12,11.84 74.15,6.47 81.17,9.89 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="81.17" cy="9.89" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="67.12" cy="11.84" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="17.92" cy="6.01" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="even">
+<th id="stub_1_2" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">classic</th>
+<td class="gt_row gt_right" headers="stub_1_2 pizzas_sold">14,888</td>
+<td class="gt_row gt_right" headers="stub_1_2 avg_price">$14.78</td>
+<td class="gt_row gt_right" headers="stub_1_2 total_revenue" style="background-color: #08306B; color: #FFFFFF">$220,053.10</td>
+<td class="gt_row gt_right" headers="stub_1_2 revenue_share">26.91%</td>
+<td class="gt_row gt_center" headers="stub_1_2 monthly_trend"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="14.17pt" viewbox="0 0 85.04 14.17">
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;" /><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDE0LjE3"> <rect x="0.00" y="0.00" width="85.04" height="14.17" /> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDE0LjE3)"><rect x="0.00" y="0.0000000000000018" width="85.04" height="14.17" style="stroke-width: 0.00; stroke: none;" /><polyline points="3.87,3.96 10.89,6.61 17.92,5.00 24.95,3.56 31.98,2.31 39.01,5.16 46.03,1.84 53.06,3.55 60.09,5.58 67.12,6.45 74.15,4.03 81.17,6.47 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="81.17" cy="6.47" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="10.89" cy="6.61" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="46.03" cy="1.84" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="odd">
+<th id="stub_1_3" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">supreme</th>
+<td class="gt_row gt_right" headers="stub_1_3 pizzas_sold">11,987</td>
+<td class="gt_row gt_right" headers="stub_1_3 avg_price">$17.37</td>
+<td class="gt_row gt_right" headers="stub_1_3 total_revenue" style="background-color: #5CA3D0; color: #FFFFFF">$208,197.00</td>
+<td class="gt_row gt_right" headers="stub_1_3 revenue_share">25.46%</td>
+<td class="gt_row gt_center" headers="stub_1_3 monthly_trend"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="14.17pt" viewbox="0 0 85.04 14.17">
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;" /><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDE0LjE3"> <rect x="0.00" y="0.00" width="85.04" height="14.17" /> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDE0LjE3)"><rect x="0.00" y="0.0000000000000018" width="85.04" height="14.17" style="stroke-width: 0.00; stroke: none;" /><polyline points="3.87,5.38 10.89,7.88 17.92,6.64 24.95,5.97 31.98,4.59 39.01,5.04 46.03,4.79 53.06,7.10 60.09,10.80 67.12,6.73 74.15,4.82 81.17,9.17 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="81.17" cy="9.17" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="60.09" cy="10.80" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="31.98" cy="4.59" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+<tr class="even">
+<th id="stub_1_4" class="gt_row gt_left gt_stub" data-quarto-table-cell-role="th" scope="row">veggie</th>
+<td class="gt_row gt_right" headers="stub_1_4 pizzas_sold">11,649</td>
+<td class="gt_row gt_right" headers="stub_1_4 avg_price">$16.63</td>
+<td class="gt_row gt_right" headers="stub_1_4 total_revenue" style="background-color: #F7FBFF; color: #000000">$193,690.45</td>
+<td class="gt_row gt_right" headers="stub_1_4 revenue_share">23.68%</td>
+<td class="gt_row gt_center" headers="stub_1_4 monthly_trend"><svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="85.04pt" height="14.17pt" viewbox="0 0 85.04 14.17">
+<g class="svglite"><defs> </defs><rect width="100%" height="100%" style="stroke: none; fill: none;" /><defs> <clippath id="cpMC4wMHw4NS4wNHwwLjAwfDE0LjE3"> <rect x="0.00" y="0.00" width="85.04" height="14.17" /> </clippath></defs><g clip-path="url(#cpMC4wMHw4NS4wNHwwLjAwfDE0LjE3)"><rect x="0.00" y="0.0000000000000018" width="85.04" height="14.17" style="stroke-width: 0.00; stroke: none;" /><polyline points="3.87,7.18 10.89,10.10 17.92,6.61 24.95,9.76 31.98,7.48 39.01,9.33 46.03,5.89 53.06,9.33 60.09,11.39 67.12,12.34 74.15,8.93 81.17,10.45 " style="stroke-width: 1.07; stroke-linecap: butt;"></polyline><circle cx="81.17" cy="10.45" r="0.89" style="stroke-width: 0.71; fill: #000000;"></circle><circle cx="67.12" cy="12.34" r="0.89" style="stroke-width: 0.71; stroke: #A020F0; fill: #A020F0;"></circle><circle cx="46.03" cy="5.89" r="0.89" style="stroke-width: 0.71; stroke: #00FF00; fill: #00FF00;"></circle></g></g>
+</svg></td>
+</tr>
+</tbody><tfoot>
+<tr class="gt_footnotes odd">
+<td colspan="6" class="gt_footnote"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> Total revenue is the sum of the selling prices for all pizzas sold.</td>
+</tr>
+<tr class="gt_sourcenotes even">
+<td colspan="6" class="gt_sourcenote">Source: pizzaplace dataset from the gt package.</td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="why-this-table-is-worth-adding-to-msdm-project" class="level2" data-number="2.12">
+<h2 data-number="2.12" class="anchored" data-anchor-id="why-this-table-is-worth-adding-to-msdm-project"><span class="header-section-number">2.12</span> Why This Table Is Worth Adding to MSDM Project:</h2>
+<p>This table is worth it because it would be super useful for what I am doing in my CEP. I will be able to keep many important measures in one place, making easy to compare performance, while the small trends chart can help me showcase how trends have changed over time. With the Facebook data that I will receive, I can compare content types, engagement, and reservation activity in a similar was and be useful for our written report and presentation slides.</p>
 </section>
 </section>
 

@@ -121,3 +121,219 @@ trend_data
 ## Combining the Summary Data:
 
 I will then combine the descriptive stats with the monthly trend data so that the final table can show both values and small visual trend for each type of pizza.
+
+```{r}
+
+#| label: combined-data
+#| code-fold: true
+
+pizza_table_data <- pizza_summary |>
+  left_join(trend_data, by = "type")
+
+pizza_table_data
+```
+
+## Creating the Final Table:
+
+I will then use `gt` to convert the summarized data into a cleaner more professional table. I also included values and labels to make the table easier to read. You can see the result of the table below the chunk.
+
+```{r}
+#| label: final-gt-table
+#| code-fold: true
+
+pizza_table_data |>
+  gt(rowname_col = "type") |>
+  tab_stubhead(
+    label = "Pizza Type"
+  ) |>
+  tab_header(
+    title = "Pizza Sales Performance",
+    subtitle = "Sales, pricing, revenue, and monthly trends by pizza type"
+  ) |>
+  cols_label(
+    pizzas_sold = "Pizzas Sold",
+    avg_price = "Average Price",
+    total_revenue = "Total Revenue",
+    revenue_share = "Revenue Share",
+    monthly_trend = "Monthly Trend"
+  )
+```
+
+## Formatting the Table:
+
+I then will format the table to make it easier to read and more suitable for a presentation. I added labels, grouped related columns, and formatted numeric values.
+
+```{r}
+#| label: formatted-gt-table
+#| code-fold: true
+
+pizza_table_data |>
+  gt(rowname_col = "type") |>
+  tab_stubhead(
+    label = "Pizza Type"
+  ) |>
+  tab_header(
+    title = "Pizza Sales Performance",
+    subtitle = "Sales, pricing, revenue, and monthly trends by pizza type"
+  ) |>
+  cols_label(
+    pizzas_sold = "Pizzas Sold",
+    avg_price = "Average Price",
+    total_revenue = "Total Revenue",
+    revenue_share = "Revenue Share",
+    monthly_trend = "Monthly Trend"
+  ) |>
+  tab_spanner(
+    label = "Sales Performance",
+    columns = c(
+      pizzas_sold,
+      avg_price,
+      total_revenue,
+      revenue_share
+    )
+  ) |>
+  fmt_number(
+    columns = pizzas_sold,
+    decimals = 0
+  ) |>
+  fmt_currency(
+    columns = c(avg_price, total_revenue),
+    currency = "USD",
+    decimals = 2
+  ) |>
+  fmt_percent(
+    columns = revenue_share,
+    decimals = 2
+  )
+```
+
+## 
+
+## Adding a Small Trend Chart:
+
+```{r}
+pizza_table_data |>
+  gt(rowname_col = "type") |>
+  tab_stubhead(
+    label = "Pizza Type"
+  ) |>
+  tab_header(
+    title = "Pizza Sales Performance",
+    subtitle = "Sales, pricing, revenue, and monthly trends by pizza type"
+  ) |>
+  cols_label(
+    pizzas_sold = "Pizzas Sold",
+    avg_price = "Average Price",
+    total_revenue = "Total Revenue",
+    revenue_share = "Revenue Share",
+    monthly_trend = "Monthly Trend"
+  ) |>
+  tab_spanner(
+    label = "Sales Performance",
+    columns = c(
+      pizzas_sold,
+      avg_price,
+      total_revenue,
+      revenue_share
+    )
+  ) |>
+  fmt_number(
+    columns = pizzas_sold,
+    decimals = 0
+  ) |>
+  fmt_currency(
+    columns = c(avg_price, total_revenue),
+    currency = "USD",
+    decimals = 2
+  ) |>
+  fmt_percent(
+    columns = revenue_share,
+    decimals = 2
+  ) |>
+  gt_plt_sparkline(
+    column = monthly_trend,
+    same_limit = TRUE,
+    label = FALSE
+  )
+```
+
+## 
+
+## Final Details:
+
+I added color, a footnote, and a source note to make the table easier to read. The monthly sparklines are still in there so that the table shows the trends and values.
+
+```{r}
+
+#| label: final-pizza-table
+#| code-fold: true
+
+pizza_table_data |>
+  gt(rowname_col = "type") |>
+  tab_stubhead(
+    label = "Pizza Type"
+  ) |>
+  tab_header(
+    title = "Pizza Sales Performance",
+    subtitle = "Sales, pricing, revenue, and monthly trends by pizza type"
+  ) |>
+  cols_label(
+    pizzas_sold = "Pizzas Sold",
+    avg_price = "Average Price",
+    total_revenue = "Total Revenue",
+    revenue_share = "Revenue Share",
+    monthly_trend = "Monthly Trend"
+  ) |>
+  tab_spanner(
+    label = "Sales Performance",
+    columns = c(
+      pizzas_sold,
+      avg_price,
+      total_revenue,
+      revenue_share
+    )
+  ) |>
+  fmt_number(
+    columns = pizzas_sold,
+    decimals = 0
+  ) |>
+  fmt_currency(
+    columns = c(avg_price, total_revenue),
+    currency = "USD",
+    decimals = 2
+  ) |>
+  fmt_percent(
+    columns = revenue_share,
+    decimals = 2
+  ) |>
+  data_color(
+    columns = total_revenue,
+    method = "numeric",
+    palette = "Blues"
+  ) |>
+  gt_plt_sparkline(
+    column = monthly_trend,
+    same_limit = TRUE,
+    label = FALSE,
+    palette = c(
+      "black",
+      "black",
+      "purple",
+      "green",
+      "lightgrey"
+    )
+  ) |>
+  tab_footnote(
+    footnote = "Total revenue is the sum of the selling prices for all pizzas sold.",
+    locations = cells_column_labels(
+      columns = total_revenue
+    )
+  ) |>
+  tab_source_note(
+    source_note = "Source: pizzaplace dataset from the gt package."
+  )
+```
+
+## Why This Table Is Worth Adding to MSDM Project:
+
+This table is worth it because it would be super useful for what I am doing in my CEP. I will be able to keep many important measures in one place, making easy to compare performance, while the small trends chart can help me showcase how trends have changed over time. With the Facebook data that I will receive, I can compare content types, engagement, and reservation activity in a similar was and be useful for our written report and presentation slides.
