@@ -26,3 +26,11 @@ The key idea that I took away from the videos was that `gt` and `gExtra` package
 ## 2. What I like about gt and gtExtra
 
 What I liked most about the `gt` package was the amount of control it gives me to in terms of how the my table looks without making things too complicated. With this package, I can change column names, add subtitles, format numers, change colors, and include notes that can help me explain data better to my audience. These small perks can make a difference when building a table with data because I can make it much more professional and not so generic and confusing. What I liked about `gtExtra` was the fact that I can add more visual elements to my table like small charts and trends. This is useful because it give me the exact values and a quick idea of what is happening in the data, making it easier for me to explain it too. So, instead of choosing between table or chart, I can combine them using these packages.
+
+## 3. How Do Tables Complement Charts?
+
+Tables can complement charts by providing exact details that we may not be able to see on a chart as clearly. We can easily see patterns, trends, or differences in data when we are looking at a chart, and by also including a table, we can support the visual by showing the actual data behind it. An example would be that I might use a chart to show how sales have changed at the RKR over time, but management might want the actual numbers as well. So including a chart can show the trend of the RKR performance, and the actual numbers behind it allowing management to have a visual understanding and detailed one as well.
+
+## 4. When I would prefer to use tables
+
+I would prefer to use a table when the numerical values are more important than an overall pattern that can be represented with a visual. I can also use tables when comparing many measurements for a small number of categories. An example would be if I wanted to compare thee sales , and overall revenue of specific items on the RKR menu. I would use a table in this situation because it would allow me to see all the exact values in one place. Overall, I do think charts are important because they allow trends to be easily visualized, but tables are better used when the audience wants to see hard detailed numbers or information.
