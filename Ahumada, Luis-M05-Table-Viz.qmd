@@ -13,9 +13,9 @@ execute:
   freeze: auto
 ---
 
-# What I Learned from the Videos
+# Part 1: What I Learned from the Videos
 
-## 1. Summary 
+## 1. Summary
 
 After watching the videos, I learned that tables can be much more than just a basic way to showcase numbers and data. The `gt` package can help me make tables look much more organized and professional by adding titles, labels, colors, footnotes, and number formatting. I also learned that the data should be summarized and cleaned before create the final table. With `gtExtra` I learned that we can add small visuals directly inside a table which is nice because I thought that tables and charts had to be created separate when I would created them. By combing them, the data that I want to be present can become a lot easier to understand, rather than having things be all over the place.
 
@@ -34,3 +34,90 @@ Tables can complement charts by providing exact details that we may not be able 
 ## 4. When I would prefer to use tables
 
 I would prefer to use a table when the numerical values are more important than an overall pattern that can be represented with a visual. I can also use tables when comparing many measurements for a small number of categories. An example would be if I wanted to compare thee sales , and overall revenue of specific items on the RKR menu. I would use a table in this situation because it would allow me to see all the exact values in one place. Overall, I do think charts are important because they allow trends to be easily visualized, but tables are better used when the audience wants to see hard detailed numbers or information.
+
+# Part 2: Creating the Table
+
+## Analytics Objective:
+
+For this section, I do not have the data that I will be receiving just yet so I will be using the `pizzaplace` data set to practice creating the table. For this table, I will use sales volume, average price, total revenue, revenue share, and monthly revenue trends. So, even though this data set is different than what I would use, I could still apply the same building approach when looking at Facebook engagement and RKR reservation metrics.
+
+## Data Preparation:
+
+First thing I will do is summarize the `pizzaplace` data by pizza type so that I could compare main categories. I calculated the number of pizzas sold, average price, total revenue, and each category's share of total revenue.
+
+```{r}
+#| label: setup
+#| include: false
+
+library(tidyverse)
+library(gt)
+library(gtExtras)
+```
+
+```{r}
+#| label: pizza-summary
+#| code-fold: true
+
+
+pizza_summary <- pizzaplace |>
+  group_by(type) |>
+  summarise(
+    pizzas_sold = n(),
+    avg_price = mean(price),
+    total_revenue = sum(price),
+    .groups = "drop"
+  ) |>
+  mutate(
+    revenue_share = total_revenue / sum(total_revenue)
+  )
+
+pizza_summary
+```
+
+## Monthly Revenue Trend:
+
+I will then summarize the data by month and pizza type so that I could see revenue changes throughout the year. These values are going to be used to create a small chart that shows the trend in the final table.
+
+```{r}
+
+#| label: monthly-trend
+#| code-fold: true
+
+monthly_revenue <- pizzaplace |>
+  mutate(
+    month = format(as.Date(date), "%m")
+  ) |>
+  group_by(type, month) |>
+  summarise(
+    revenue = sum(price),
+    .groups = "drop"
+  )
+
+monthly_revenue
+
+```
+
+## Preparing the Monthly Trend:
+
+I then grouped the monthly revenue values for each type of pizza so that I can use them to create a small trend chart in the final table.
+
+```{r}
+
+#| label: trend-data
+#| code-fold: true
+
+trend_data <- monthly_revenue |>
+  arrange(type, month) |>
+  group_by(type) |>
+  summarise(
+    monthly_trend = list(revenue),
+    .groups = "drop"
+  )
+
+trend_data
+
+```
+
+## Combining the Summary Data:
+
+I will then combine the descriptive stats with the monthly trend data so that the final table can show both values and small visual trend for each type of pizza.
